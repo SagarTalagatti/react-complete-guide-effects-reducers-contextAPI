@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../store/auth-context";
 
 // create reducer outside of component function as it does not interact with anything defined inside component function. All reqd data will be passed to the function when it is executed by React automatically.
 const emailReducer = (state, action) => {
@@ -42,6 +43,7 @@ const Login = (props) => {
     isValid: null,
   });
 
+  const authCtx = useContext(AuthContext);
   // in below case, useEffect runs everytime the component is re-evaluated, including the first render. The cleanup function runs before every execution of useEffect except the first time.
   // useEffect(() => {
   //   console.log("EFFECT RUNNING");
@@ -103,7 +105,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
